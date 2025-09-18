@@ -22,19 +22,39 @@ int Muliplication (int x, int y)
 
 int main ()
 {
-    MathOp Ops[NUMBEROFELEMENTS] = {
-        {.x=1,        .y=2,        .op = Sum},
-        {.x=1,        .y=2,        .op = Sub},
-        {.x=1,        .y=2,        .op = Muliplication}
-       
-    };
-    int result = 0;
-    for (int i=0; i< NUMBEROFELEMENTS; i++)
+    MathOp  Op;
+    printf("Enter the first number: ");
+    scanf("%d",&Op.x);
+    printf("Enter the second number:");
+    scanf("%d",&Op.y);    
+    int opChar;
+    printf("Enter operation:\n1. Sum\n2. Substraction\n3. Multiplication\n4.quite\n");
+    scanf("%d",&opChar);
+    if (opChar == 1)
     {
-        result = Ops[i].op (Ops[i].x , Ops[i].y);
-        printf ("The result %d= %d\n", i+1, result);
+        Op.op = Sum;
     }
+    else if (opChar == 2)
+    {        
+        Op.op = Sub;
+    }   
+    else if (opChar == 3)
+    {
+        Op.op = Muliplication;
+    }       
+    else if (opChar == 4)
+    {
+        printf ("\nProgram finished\n");
+        return 0;
+    }
+    else 
+    {
+        printf ("\nSum is selected as default\n");
+        Op.op = Sum;
 
-
+    }
+    
+    int result= Op.op(Op.x, Op.y);    
+    printf ("The result = %d\n", result);
     return 0;
 }
