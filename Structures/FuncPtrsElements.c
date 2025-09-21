@@ -1,4 +1,5 @@
 #include <stdio.h>
+//Define the structure with function pointers
 typedef struct {
                 void (* start)      ();
                 void (* stop)       ();
@@ -12,6 +13,7 @@ typedef struct {
 
 } CommandHandler;
 
+//Define the actual functions
 void StartFunction()
 {
     printf("System Started\n");
@@ -49,6 +51,7 @@ void HelpFunciton ()
     printf("Command Help Excuted \n");
 }
 
+//Define  the execute Command function
 void executeCommand(CommandHandler* cmdHndlr, char* command)
 {
     if ((cmdHndlr == NULL) && (command == NULL)) return ;
@@ -75,6 +78,7 @@ void executeCommand(CommandHandler* cmdHndlr, char* command)
 
 }
 
+// Main function
 int main ()
 {
     CommandHandler cmdHndlr1=
@@ -89,6 +93,7 @@ int main ()
         .reboot = RebootFunction,
         .help = HelpFunciton
     };
+    // Simulate comman
     executeCommand(&cmdHndlr1,"start");
     executeCommand(&cmdHndlr1,"stop");
     executeCommand(&cmdHndlr1,"pause");
