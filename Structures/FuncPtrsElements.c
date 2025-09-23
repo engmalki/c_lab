@@ -80,17 +80,17 @@ int main ()
         .reboot = RebootFunction,
         .help = HelpFunciton
     };
-    // Simulate comman
-    executeCommand(&cmdHndlr1,"start");
-    executeCommand(&cmdHndlr1,"stop");
-    executeCommand(&cmdHndlr1,"pause");
-    executeCommand(&cmdHndlr1,"resume");
-    executeCommand(&cmdHndlr1,"status");
-    executeCommand(&cmdHndlr1,"reset");
-    executeCommand(&cmdHndlr1,"shutdown");
-    executeCommand(&cmdHndlr1,"reboot");
-    executeCommand(&cmdHndlr1,"help");
-    executeCommand(&cmdHndlr1,"123");
-    printf ("Program Finished \n");
+    char input [100];
+    printf("Type 'help' to see available commands.\n");
+    while (1)
+    {
+        scanf("%s", input);
+        if (strcmp(input,"exit")==0)
+        {
+            printf("Exiting Program.\n");
+            break;
+        }
+        executeCommand(&cmdHndlr1, input);
+    }  
     return 0;
 }
