@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+
+#define MAX_HISTORY             100
+#define MAX_COMMAND_LENGTH      100
 //Define the structure with function pointers
 typedef struct {
                 void (* start)      ();
@@ -35,6 +38,7 @@ void HelpFunciton ()
     printf("  shutdown  -   Shutdown the system\n");
     printf("  reboot    -   Rebot the system\n");
     printf("  help      -   Show the help message\n");
+    printf("  history   -   Show the command history\n");
     printf("  exit      -   Exit the program\n");
 }
 
@@ -60,6 +64,9 @@ void executeCommand(CommandHandler* cmdHndlr, char* command)
         cmdHndlr->reboot();
     else if ((strcmp(command, "help") ==0) && (cmdHndlr -> help))
         cmdHndlr->help();
+    else if (strcmp(command,"history")==0)
+    //This will handle in the main
+    return ;
     else 
         printf ("Unknwon Command: %s\n",command);
 
@@ -68,6 +75,8 @@ void executeCommand(CommandHandler* cmdHndlr, char* command)
 // Main function
 int main ()
 {
+    short   history_count = 0;
+    char    history [MAX_HISTORY][MAX_COMMAND_LENGTH];
     CommandHandler cmdHndlr1=
     {
         .start = StartFunction,
@@ -80,17 +89,36 @@ int main ()
         .reboot = RebootFunction,
         .help = HelpFunciton
     };
-    char input [100];
+    char input[MAX_COMMAND_LENGTH];
+    
     printf("Type 'help' to see available commands.\n");
     while (1)
     {
+        printf("\n>");
         scanf("%s", input);
+        if (history_count < MAX_HISTORY)
+        {
+            strncpy(history[history_count],input,MAX_COMMAND_LENGTH-1);
+            history[history_count][MAX_COMMAND_LENGTH-1]='\0';
+            history_count++;
+        }
         if (strcmp(input,"exit")==0)
         {
             printf("Exiting Program.\n");
             break;
         }
+        else if(strcmp(input,"history")==0)
+        {
+            printf("Command History:\n");
+            for (int i=0;i<history_count;i++)
+            {
+                printf("%d- %s\n",i+1,history[i]);
+            }
+            continue ;
+        }
+        
         executeCommand(&cmdHndlr1, input);
-    }  
+    }    
     return 0;
 }
+
