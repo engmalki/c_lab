@@ -4,17 +4,10 @@
 #define MAX_HISTORY             100
 #define MAX_COMMAND_LENGTH      100
 //Define the structure with function pointers
-typedef struct {
-                void (* start)      ();
-                void (* stop)       ();
-                void (* pause)      ();
-                void (* resume)     ();
-                void (* status)     ();
-                void (* reset)      ();
-                void (* shutdown)   ();
-                void (* reboot)     ();
-                void (* help)       ();
-
+typedef struct { 
+                    char * command;
+                    void (* Function)      ();
+                
 } CommandHandler;
 
 //Define the actual functions
@@ -41,35 +34,33 @@ void HelpFunciton ()
     printf("  history   -   Show the command history\n");
     printf("  exit      -   Exit the program\n");
 }
+//Command Handler that contains the Table of commands with their corresponding functions 
+CommandHandler cmdHndlr1[]={
+        {"start",   StartFunction},
+        {"stop",    StopFunciton},
+        {"pause",   PauseFunction}, 
+        {"resume",  ResumeFunction},
+        {"status",  StatusFunction},
+        {"reset",   ResetFunction},
+        {"shutdown",ShutdownFunction},
+        {"reboot",  RebootFunction},
+        {"help",    HelpFunciton}        
+    };
+const short NumOfCmds = sizeof(cmdHndlr1)/ (sizeof(cmdHndlr1[0]));
 
-//Define  the execute Command function
-void executeCommand(CommandHandler* cmdHndlr, char* command)
+//Define the execute Command function
+void executeCommand(char* input)
 {
-    if ((cmdHndlr == NULL) && (command == NULL)) return ;
-    else if ((strcmp(command, "start") ==0) && (cmdHndlr -> start))
-        cmdHndlr->start();
-    else if ((strcmp(command, "stop") ==0) && (cmdHndlr -> stop ))
-        cmdHndlr->stop();
-    else if ((strcmp(command, "pause") ==0) && (cmdHndlr ->pause ))
-        cmdHndlr->pause();
-    else if ((strcmp(command, "resume") ==0) && (cmdHndlr -> resume))
-        cmdHndlr-> resume();
-    else if ((strcmp(command, "status") ==0) && (cmdHndlr -> status))
-        cmdHndlr-> status();
-    else if ((strcmp(command, "reset") ==0) && (cmdHndlr -> reset))
-        cmdHndlr->reset();
-    else if ((strcmp(command, "shutdown") ==0) && (cmdHndlr -> shutdown))
-        cmdHndlr->shutdown();
-    else if ((strcmp(command, "reboot") ==0) && (cmdHndlr -> reboot))
-        cmdHndlr->reboot();
-    else if ((strcmp(command, "help") ==0) && (cmdHndlr -> help))
-        cmdHndlr->help();
-    else if (strcmp(command,"history")==0)
-    //This will handle in the main
-    return ;
-    else 
-        printf ("Unknwon Command: %s\n",command);
-
+    for (short i=0; i < NumOfCmds; i++)
+    {
+        if (strcmp (input, cmdHndlr1[i].command)==0)
+        {
+            cmdHndlr1[i].Function();
+            
+            return ;// Command found and executed no need to continue with the loop
+        }
+    }
+    printf ("Unknown command:%s.\n",input);
 }
 
 // Main function
@@ -77,18 +68,7 @@ int main ()
 {
     short   history_count = 0;
     char    history [MAX_HISTORY][MAX_COMMAND_LENGTH];
-    CommandHandler cmdHndlr1=
-    {
-        .start = StartFunction,
-        .stop = StopFunciton,
-        .pause = PauseFunction, 
-        .resume = ResumeFunction,
-        .status = StatusFunction,
-        .reset = ResetFunction,
-        .shutdown = ShutdownFunction,
-        .reboot = RebootFunction,
-        .help = HelpFunciton
-    };
+   
     char input[MAX_COMMAND_LENGTH];
     
     printf("Type 'help' to see available commands.\n");
@@ -114,10 +94,9 @@ int main ()
             {
                 printf("%d- %s\n",i+1,history[i]);
             }
-            continue ;
+            continue;// quite from the current loop as the history is requested, executeCommand will not called.
         }
-        
-        executeCommand(&cmdHndlr1, input);
+        executeCommand(input);
     }    
     return 0;
 }
