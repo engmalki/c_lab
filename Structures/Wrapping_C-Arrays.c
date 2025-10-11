@@ -5,6 +5,14 @@ typedef struct {
     int array[5]; 
 } arrStruct;
 
+void arrayPrint (int inputArray[], int arraySize)
+{
+    for (int i =0 ; i<arraySize ;i++)
+    {
+        printf("%d\t ",inputArray[i]);
+    }
+    printf("\n");
+}
 int main()
 {
     
@@ -20,19 +28,11 @@ int main()
 
     //printing arr1 elements
     printf("\tarr1\t\t=\t\t");
-    for (int i =0 ; i<5 ;i++)
-    {
-        printf("%d\t ",arr1[i]);
-    }
-    printf("\n");
+    arrayPrint (arr1, 5);
     
     //printing arr2 elements before using memcpy ()
     printf("\tarr2\t\t=\t\t");
-    for (int i =0 ; i<5 ;i++)
-    {
-        printf("%d\t ",arr2[i]);
-    }
-    printf("\n");
+    arrayPrint (arr2, 5);
 
     //arr2 = arr1// This is not possible. For C-array we can not assign array directly to another array.
     memcpy (arr2,arr1, sizeof(arr2)); // memcpy can be used to copy block of memory from one location to another and it can be useful for C-array.
@@ -44,19 +44,12 @@ int main()
     
     //re printing arr1 elements for comparison
     printf("\tarr1\t\t=\t\t");
-    for (int i =0 ; i<5 ;i++)
-    {
-        printf("%d\t ",arr1[i]);
-    }
-    printf("\n");
+    arrayPrint (arr1, 5);
     
     printf("\tarr2\t\t=\t\t");
     //printing arr2 elements after using memcpy ()
-    for (int i =0 ; i<5 ;i++)
-    {
-        printf("%d\t ",arr2[i]);
-    }
-    printf("\n");  
+    arrayPrint (arr1, 5);
+
     printf("Result: With \"memcopy()\" values are only copied and addresses did not change.\n");
     printf("-----------------------------------------------------\n");
 /*****************/
@@ -78,33 +71,24 @@ int main()
     
     //printing the arrStruct1.array elements 
     printf("\tarrStruct1.array\t= \t");
-    for (int i =0; i<5; i++)
-        {
-            printf("%d\t ",arrStruct1.array[i]);
-        }
-    printf("\n");
+    arrayPrint (arrStruct1.array, 5);
     
     //printing the arrStruct2.array elements before assigenment
     printf("\tarrStruct2.array\t= \t");
-    for (int i =0; i<5; i++)
-        {
-            printf("%d\t ",arrStruct2.array[i]);
-        }
-    printf("\n");
-    
+    arrayPrint (arrStruct2.array, 5);
+
     //Assigenment performed to arrStruct2 from arrStruct1
     arrStruct2 = arrStruct1;
     printf("After using Struct assignment: \n");
     printf("\tAddress of arrStruct1:\t%p\n", &arrStruct1);
     printf("\tAddress of arrStruct2:\t%p\n", &arrStruct2);
-    //printing the arrStruct2.array elements After assigenment
+    //printing the elements After assigenment
+    
+    printf("\tarrStruct1.array\t= \t");
+    arrayPrint (arrStruct1.array, 5);
+    
     printf("\tarrStruct2.array\t= \t");
-    for (int i =0; i<5; i++)
-        {
-            printf("%d\t ",arrStruct2.array[i]);
-        }
-
-    printf("\n");
+    arrayPrint (arrStruct2.array, 5);
     printf("-----------------------------------------------------\n");
 /*****************/
     
