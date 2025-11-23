@@ -6,7 +6,9 @@ This folder contains various C programs demonstrating how to use `struct` in dif
 
 - 'FuncPtrsElements_2.c'
 - 'FuncPtrsElements.c'
+- 'Structs_Copy_with_Pointers_Elements.c' Demonstrates shallow copy behavior with structs containing pointers.
 - 'StructsPointers.c' Demonstrates how pointers interact with structs, including value modification and pointer reassignment.
+- 'Wrapping_C-Arrays'   Demonstrates Wrapping C-array with a struct so we can use assignment operator to copy from one structure to another without need to a loop on each element.
 
 
 ## 📌 Key Concepts Covered
@@ -21,5 +23,5 @@ This folder contains various C programs demonstrating how to use `struct` in dif
 Compile with GCC:
 
 ```bash
-gcc StructsPointers.c -o StructsPointers
-./StructsPointers
+gcc filename.c -o output
+./output
